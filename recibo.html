@@ -1,10 +1,66 @@
-CONCATENATE(
-  "https://magaby1527.github.io/recibos-parqueadero/recibo.html?",
-  "norecibo=", ENCODEURL([No_Recibo]), "&",
-  "limpia=", ENCODEURL([Limpia]), "&",
-  "placa=", ENCODEURL([Placa]), "&",
-  "ingreso=", ENCODEURL([Ingreso]), "&",
-  "salida=", ENCODEURL([Salida]), "&",
-  "preciohora=", ENCODEURL([Precio_Hora]), "&",
-  "total=", ENCODEURL([Total])
-)
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Recibo de Parqueadero</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    .recibo {
+      border: 1px dashed #000;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .item {
+      margin-bottom: 10px;
+    }
+    .label {
+      font-weight: bold;
+    }
+    .firma {
+      margin-top: 40px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body onload="cargarDatos(); window.print();">
+
+  <div class="recibo">
+    <h2>Recibo de Parqueadero</h2>
+
+    <div class="item"><span class="label">No Recibo:</span> <span id="norecibo"></span></div>
+    <div class="item"><span class="label">Limpia:</span> <span id="limpia"></span></div>
+    <div class="item"><span class="label">Placa:</span> <span id="placa"></span></div>
+    <div class="item"><span class="label">Hora de Ingreso:</span> <span id="ingreso"></span></div>
+    <div class="item"><span class="label">Hora de Salida:</span> <span id="salida"></span></div>
+    <div class="item"><span class="label">Precio por Hora:</span> <span id="preciohora"></span></div>
+    <div class="item"><span class="label">Total a Pagar:</span> <span id="total"></span></div>
+
+    <div class="firma">
+      ___________________________<br>
+      Firma / Sello
+    </div>
+  </div>
+
+  <script>
+    function cargarDatos() {
+      const params = new URLSearchParams(window.location.search);
+      document.getElementById("norecibo").textContent = params.get("norecibo") || "";
+      document.getElementById("limpia").textContent = params.get("limpia") || "";
+      document.getElementById("placa").textContent = params.get("placa") || "";
+      document.getElementById("ingreso").textContent = params.get("ingreso") || "";
+      document.getElementById("salida").textContent = params.get("salida") || "";
+      document.getElementById("preciohora").textContent = params.get("preciohora") || "";
+      document.getElementById("total").textContent = params.get("total") || "";
+    }
+  </script>
+
+</body>
+</html>
