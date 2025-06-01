@@ -42,8 +42,8 @@
     <div class="titulo">RECIBO DE PARQUEADERO</div>
     
     <div class="item"><span class="label">Recibo:</span> <span id="norecibo"></span></div>
-    <div class="item"><span class="label">Limpia:</span> <span id="limpia"></span></div>
-    <div class="item"><span class="label">Placa:</span> <span id="placa"></span></div>
+    <div class="item"><span class="label">Placa:</span> <span id="limpia"></span></div>
+    <div class="item"><span class="label">Fecha:</span> <span id="Fecha"></span></div>
     <div class="item"><span class="label">Ingreso:</span> <span id="ingreso"></span></div>
     <div class="item"><span class="label">Salida:</span> <span id="salida"></span></div>
     <div class="item"><span class="label">Precio/Hora:</span> <span id="preciohora"></span></div>
@@ -61,8 +61,8 @@
     function cargarDatos() {
       const params = new URLSearchParams(window.location.search);
       document.getElementById("norecibo").textContent = params.get("norecibo") || "";
-      document.getElementById("limpia").textContent = params.get("limpia") || "";
-      document.getElementById("placa").textContent = params.get("placa") || "";
+      document.getElementById("placa").textContent = params.get("limpia") || "";
+      document.getElementById("Fecha").textContent = params.get("Fecha") || "";
       document.getElementById("ingreso").textContent = params.get("ingreso") || "";
       document.getElementById("salida").textContent = params.get("salida") || "";
       document.getElementById("preciohora").textContent = params.get("preciohora") || "";
