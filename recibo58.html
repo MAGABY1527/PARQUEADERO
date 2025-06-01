@@ -52,7 +52,7 @@
     function cargarDatos() {
       const params = new URLSearchParams(window.location.search);
       document.getElementById("norecibo").textContent = params.get("norecibo") || "";
-      document.getElementById("placa").textContent = params.get("Placa") || "";
+      document.getElementById("placa").textContent = params.get("placa") || "";
       document.getElementById("fecha").textContent = params.get("Fecha") || "";
       document.getElementById("ingreso").textContent = params.get("ingreso") || "";
       document.getElementById("salida").textContent = params.get("salida") || "";
@@ -63,4 +63,3 @@
 
 </body>
 </html>
-
