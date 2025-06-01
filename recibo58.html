@@ -11,7 +11,7 @@
       padding: 0;
     }
     .recibo {
-      width: 58mm; /* Cambia a 80mm si tu impresora es de ese tamaño */
+      width: 58mm;
       padding: 10px;
       margin: auto;
     }
@@ -30,10 +30,6 @@
       border-top: 1px dashed #000;
       margin: 10px 0;
     }
-    .firma {
-      margin-top: 20px;
-      text-align: center;
-    }
   </style>
 </head>
 <body onload="cargarDatos(); window.print();">
@@ -42,27 +38,22 @@
     <div class="titulo">RECIBO DE PARQUEADERO</div>
     
     <div class="item"><span class="label">Recibo:</span> <span id="norecibo"></span></div>
-    <div class="item"><span class="label">Placa:</span> <span id="limpia"></span></div>
-    <div class="item"><span class="label">Fecha:</span> <span id="Fecha"></span></div>
+    <div class="item"><span class="label">Placa:</span> <span id="placa"></span></div>
+    <div class="item"><span class="label">Fecha:</span> <span id="fecha"></span></div>
     <div class="item"><span class="label">Ingreso:</span> <span id="ingreso"></span></div>
     <div class="item"><span class="label">Salida:</span> <span id="salida"></span></div>
     <div class="item"><span class="label">Precio/Hora:</span> <span id="preciohora"></span></div>
     <div class="item"><span class="label">Total:</span> <span id="total"></span></div>
 
     <div class="linea"></div>
-
-    <div class="firma">
-      _______________________<br>
-      Firma / Sello
-    </div>
   </div>
 
   <script>
     function cargarDatos() {
       const params = new URLSearchParams(window.location.search);
       document.getElementById("norecibo").textContent = params.get("norecibo") || "";
-      document.getElementById("Placa").textContent = params.get("limpia") || "";
-      document.getElementById("Fecha").textContent = params.get("Fecha") || "";
+      document.getElementById("placa").textContent = params.get("Placa") || "";
+      document.getElementById("fecha").textContent = params.get("Fecha") || "";
       document.getElementById("ingreso").textContent = params.get("ingreso") || "";
       document.getElementById("salida").textContent = params.get("salida") || "";
       document.getElementById("preciohora").textContent = params.get("preciohora") || "";
@@ -72,3 +63,4 @@
 
 </body>
 </html>
+
