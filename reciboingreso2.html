@@ -42,6 +42,7 @@
     <div class="item"><span class="label">Fecha:</span> <span id="fecha"></span></div>
     <div class="item"><span class="label">Ingreso:</span> <span id="ingreso"></span></div>
     <div class="item"><span class="label">Precio/Hora:</span> <span id="preciohora"></span></div>
+    <div class="item"><span class="label">Imagen:</span> <span id="imagen"></span></div>
 
     <div class="linea"></div>
   </div>
@@ -54,6 +55,7 @@
       document.getElementById("fecha").textContent = params.get("Fecha") || "";
       document.getElementById("ingreso").textContent = params.get("ingreso") || "";
       document.getElementById("preciohora").textContent = params.get("preciohora") || "";
+      document.getElementById("imagen").textContent = params.get("imagen") || "";
     }
   </script>
 
