@@ -30,34 +30,33 @@
       border-top: 1px dashed #000;
       margin: 10px 0;
     }
+    .imagen {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .imagen img {
+      max-width: 100%;
+      max-height: 120px;
+    }
   </style>
 </head>
-<body onload="cargarDatos(); window.print();">
+<body>
 
   <div class="recibo">
     <div class="titulo">RECIBO DE PARQUEADERO</div>
-    
-    <div class="item"><span class="label">Recibo:</span> <span id="norecibo"></span></div>
-    <div class="item"><span class="label">Placa:</span> <span id="placa"></span></div>
-    <div class="item"><span class="label">Fecha:</span> <span id="fecha"></span></div>
-    <div class="item"><span class="label">Ingreso:</span> <span id="ingreso"></span></div>
-    <div class="item"><span class="label">Precio/Hora:</span> <span id="preciohora"></span></div>
-    <div class="item"><span class="label">Imagen:</span> <span id="imagen"></span></div>
+
+    <div class="item"><span class="label">Recibo:</span> <<[norecibo]>></div>
+    <div class="item"><span class="label">Placa:</span> <<[placa]>></div>
+    <div class="item"><span class="label">Fecha:</span> <<[Fecha]>></div>
+    <div class="item"><span class="label">Ingreso:</span> <<[ingreso]>></div>
+    <div class="item"><span class="label">Precio/Hora:</span> <<[preciohora]>></div>
+
+    <div class="imagen">
+      <<[imagen]>>
+    </div>
 
     <div class="linea"></div>
   </div>
-
-  <script>
-    function cargarDatos() {
-      const params = new URLSearchParams(window.location.search);
-      document.getElementById("norecibo").textContent = params.get("norecibo") || "";
-      document.getElementById("placa").textContent = params.get("placa") || "";
-      document.getElementById("fecha").textContent = params.get("Fecha") || "";
-      document.getElementById("ingreso").textContent = params.get("ingreso") || "";
-      document.getElementById("preciohora").textContent = params.get("preciohora") || "";
-      document.getElementById("imagen").textContent = params.get("imagen") || "";
-    }
-  </script>
 
 </body>
 </html>
