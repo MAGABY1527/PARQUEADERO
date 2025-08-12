@@ -1,455 +1,109 @@
--- phpMyAdmin SQL Dump
--- version 5.2.2
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 05-08-2025 a las 19:31:35
--- Versión del servidor: 10.11.10-MariaDB
--- Versión de PHP: 7.2.34
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Recibo de Parqueadero</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      font-size: 12px;
+      font-weight: bold;
+      color: #000000;
+      margin: 0;
+      padding: 0;
+    }
+    .recibo {
+      width: 58mm;
+      padding: 10px;
+      margin: auto;
+    }
+    .titulo {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    .item {
+      margin-bottom: 5px;
+    }
+    .linea {
+      border-top: 1px dashed #000;
+      margin: 10px 0;
+    }
+    .imagen-container {
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .imagen-container img {
+      max-width: 100%;
+      height: auto;
+      display: none;
+    }
+    .pie {
+      font-size: 10px; /* Más pequeño para que quepa */
+      text-align: justify;
+      margin-top: 10px;
+    }
+    .pie strong {
+      display: block;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body onload="cargarDatos(); window.print();">
+
+  <div class="recibo">
+    <div class="titulo" style="font-size:40px;">AJM</div>
+    <div class="titulo">PAEQUEADERO</div>
+    <div class="titulo">DIR: CARRERA 7 # 15-46</div>
+    <div class="titulo">TELEFONO: 3163296157</div>
+
+    <div class="item"><span class="label">Recibo:</span> <span id="norecibo"></span></div>
+    <div class="item"><span class="label">Placa:</span> <span id="placa"></span></div>   
+    <div class="item"><span class="label">Ingreso:</span> <span id="ingreso"></span></div> 
+    <div class="item"><span class="label">Precio:</span> <span id="preciohora"></span></div>
+    
+
+    <div class="imagen-container">
+      <img id="imagenRecibo" src="" alt="Imagen del recibo">
+    </div>
+
+    <div class="linea"></div>
+
+    <div class="pie">
+      <strong>REGLAMENTO</strong>
+      El vehículo se entregará al portador del recibo. No aceptamos órdenes telefónicas ni escritas. 
+      Retirado el vehículo, no aceptamos ningún tipo de reclamo. No respondemos por objetos o dineros 
+      dejados en el vehículo. No nos responsabilizamos por la pérdida, deterioro o daños ocurridos como 
+      consecuencia de incendio, terremoto, asonada, revolución, u otras causas similares. No respondemos 
+      por daños al vehículo causados por terceros. Debe dejar la moto en reversa y sin seguro.
+    </div>
+  </div>
+
+  <script>
+    function cargarDatos() {
+      const params = new URLSearchParams(window.location.search);
+
+      document.getElementById("norecibo").textContent = params.get("norecibo") || "";
+      document.getElementById("placa").textContent = params.get("placa") || "";     
+      document.getElementById("ingreso").textContent = params.get("ingreso") || "";      
+      document.getElementById("preciohora").textContent = params.get("preciohora") || "";
+     
+
+      const imagenRuta = params.get("imagen") || "";
+      const imagenElement = document.getElementById("imagenRecibo");
+
+      if (imagenRuta) {
+        imagenElement.src = imagenRuta;
+        imagenElement.style.display = 'block';
+      } else {
+        imagenElement.style.display = 'none';
+      }
+    }
+  </script>
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+</body>
+</html>
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
---
--- Base de datos: `u251316881_creditoss`
---
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `accesorol`
---
-
-CREATE TABLE `accesorol` (
-  `accesorolid` varchar(50) NOT NULL DEFAULT 'AUTO_INCREMENT',
-  `accesoid` varchar(50) NOT NULL,
-  `usuariorol` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `accesorol`
---
-
-INSERT INTO `accesorol` (`accesorolid`, `accesoid`, `usuariorol`) VALUES
-('5', '1', '1'),
-('6', '2', '1');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `asesores`
---
-
-CREATE TABLE `asesores` (
-  `cedula_asesor` int(11) NOT NULL,
-  `nombre_asesor` varchar(50) NOT NULL,
-  `dir_asesor` varchar(50) NOT NULL,
-  `telefono_asesor` varchar(50) NOT NULL,
-  `fecha_ingresoas` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `asesores`
---
-
-INSERT INTO `asesores` (`cedula_asesor`, `nombre_asesor`, `dir_asesor`, `telefono_asesor`, `fecha_ingresoas`) VALUES
-(123, 'USUARIO', '0', '0', '2025-07-19'),
-(16895455, 'HECTR BENAVIDES', 'CALLE 100 CARERRA 199', '3217147425', '2025-06-04');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `clientes`
---
-
-CREATE TABLE `clientes` (
-  `cedula` int(11) NOT NULL,
-  `nombre_c` varchar(50) NOT NULL,
-  `direccion` varchar(50) NOT NULL,
-  `telefono` varchar(50) NOT NULL,
-  `tiponegocio` varchar(50) NOT NULL,
-  `direccion_neg` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `clientes`
---
-
-INSERT INTO `clientes` (`cedula`, `nombre_c`, `direccion`, `telefono`, `tiponegocio`, `direccion_neg`) VALUES
-(16895455, 'HECTOR F BENAVIDES', 'Cra. 61 #18-16, Comuna 17, Cali, Valle del Cauca, ', '3217147425', 'ALCALDIA DE CALI', 'AVENIDA 2 NORTE # 10 70'),
-(38556034, 'YINNI NEGRET', 'Mariano Ramos, Cali, Valle del Cauca, Colombia', '3105780091', 'ALCALDIA DE CALI', 'Av. 2 Nte. #10-70, San Pedro, Cali, Valle del Cauc'),
-(1113641968, 'HANS CHRISTIAN QUIROGA CHARRIA', 'Cra. 1 # 6A-33, Candelaria, Valle del Cauca, Colom', '3026563447', 'ALCALDIA DE CALI', 'Av. 2 Nte. #10-70, San Pedro, Cali, Valle del Cauc');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `codeudor`
---
-
-CREATE TABLE `codeudor` (
-  `cedula` int(11) NOT NULL,
-  `nombre_cod` varchar(50) NOT NULL,
-  `direccion_cod` varchar(50) NOT NULL,
-  `telefono_cod` varchar(50) NOT NULL,
-  `ocupacion` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `codeudor`
---
-
-INSERT INTO `codeudor` (`cedula`, `nombre_cod`, `direccion_cod`, `telefono_cod`, `ocupacion`) VALUES
-(1, 'NO TIENE', '0', '0', 'NO TIENE');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `creditos`
---
-
-CREATE TABLE `creditos` (
-  `id_credito` int(11) NOT NULL,
-  `fecha_cre` varchar(50) NOT NULL,
-  `monto` varchar(50) NOT NULL,
-  `dias` varchar(50) NOT NULL,
-  `cuota_inicial` varchar(50) NOT NULL,
-  `total_inicial` varchar(50) NOT NULL,
-  `cuota_actual` varchar(50) NOT NULL,
-  `saldo` varchar(50) NOT NULL,
-  `abonado` varchar(50) NOT NULL,
-  `pagadas` varchar(50) NOT NULL,
-  `saldo_cuotas` varchar(50) NOT NULL,
-  `atrasosc` varchar(50) NOT NULL,
-  `fecha_fin` varchar(50) NOT NULL,
-  `valor_sancion` varchar(50) NOT NULL,
-  `cedulacl` varchar(50) NOT NULL,
-  `nombrecl` varchar(50) NOT NULL,
-  `telefonocl` varchar(50) NOT NULL,
-  `dircl` varchar(50) NOT NULL,
-  `dirneg` varchar(50) NOT NULL,
-  `cedulaco` varchar(50) NOT NULL,
-  `nombreco` varchar(50) NOT NULL,
-  `telefonoco` varchar(50) NOT NULL,
-  `dirco` varchar(50) NOT NULL,
-  `ruta` int(11) NOT NULL,
-  `nomrecob` varchar(50) NOT NULL,
-  `estado` varchar(12) NOT NULL,
-  `domic` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `creditos`
---
-
-INSERT INTO `creditos` (`id_credito`, `fecha_cre`, `monto`, `dias`, `cuota_inicial`, `total_inicial`, `cuota_actual`, `saldo`, `abonado`, `pagadas`, `saldo_cuotas`, `atrasosc`, `fecha_fin`, `valor_sancion`, `cedulacl`, `nombrecl`, `telefonocl`, `dircl`, `dirneg`, `cedulaco`, `nombreco`, `telefonoco`, `dirco`, `ruta`, `nomrecob`, `estado`, `domic`) VALUES
-(1, '2025-06-05 00:00:00', '600000', '60', '14000', '840000', '9753.846153846', '507200', '340000', '23', '37', '29', '2025-08-04 00:00:00', '7200', '1113641968', 'HANS CHRISTIAN QUIROGA CHARRIA', '3026563447', 'Cra. 1 # 6A-33, Candelaria, Valle del Cauca, Colom', 'Av. 2 Nte. #10-70, San Pedro, Cali, Valle del Cauc', '1', 'NO TIENE', '0', '0', 1, 'HECTR BENAVIDES', 'ACTIVO', 21),
-(2, '2025-06-05 00:00:00', '500000', '60', '11666.667', '700000.02', '0.098', '-0.98', '700001', '8', '52', '39', '2025-08-04 00:00:00', '0', '38556034', 'YINNI NEGRET', '3105780091', 'Mariano Ramos, Cali, Valle del Cauca, Colombia', 'Av. 2 Nte. #10-70, San Pedro, Cali, Valle del Cauc', '1', 'NO TIENE', '0', '0', 1, 'HECTR BENAVIDES', 'INACTIVO', 7),
-(3, '2025-08-01 00:00:00', '500000', '60', '11666.666', '699999.96', '11666.666', '699999.96', '0', '0', '60', '3', '2025-09-30 00:00:00', '0', '38556034', 'YINNI NEGRET', '3105780091', 'Mariano Ramos, Cali, Valle del Cauca, Colombia', 'Av. 2 Nte. #10-70, San Pedro, Cali, Valle del Cauc', '1', 'NO TIENE', '0', '0', 1, 'HECTR BENAVIDES', 'ACTIVO', 0);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `iconos`
---
-
-CREATE TABLE `iconos` (
-  `id_acceso` int(11) NOT NULL,
-  `acceso_nombre` varchar(50) NOT NULL,
-  `acceso_vista` varchar(50) NOT NULL,
-  `acceso_imagen` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `iconos`
---
-
-INSERT INTO `iconos` (`id_acceso`, `acceso_nombre`, `acceso_vista`, `acceso_imagen`) VALUES
-(1, 'INGRESO CLIENTE', 'ingreso cliente', 'vistas_Images/1.imagen.204025.jpg'),
-(2, 'INGRESO CODEUDOR', 'INGRESO CODEUDOR', 'vistas_Images/0.imagen.123028.jpg'),
-(3, 'INGRESO CREDITOS', 'INGRESO CREDITOS', 'vistas_Images/2.imagen.124932.jpg');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `ingresos`
---
-
-CREATE TABLE `ingresos` (
-  `id_ingreso` int(11) NOT NULL,
-  `fecha` varchar(50) NOT NULL,
-  `credito` varchar(50) NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `ingreso` varchar(50) NOT NULL,
-  `atraso` varchar(50) NOT NULL,
-  `vcuota` varchar(50) NOT NULL,
-  `cuotas_pagadas` varchar(50) NOT NULL,
-  `adelantadas` varchar(50) NOT NULL,
-  `sancion` varchar(50) NOT NULL,
-  `saldoi` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 CHECKSUM=1 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `ingresos`
---
-
-INSERT INTO `ingresos` (`id_ingreso`, `fecha`, `credito`, `nombre`, `ingreso`, `atraso`, `vcuota`, `cuotas_pagadas`, `adelantadas`, `sancion`, `saldoi`) VALUES
-(2, '2025-06-05 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '', '', ''),
-(3, '2025-06-06 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '', '', ''),
-(4, '2025-06-07 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '', '', ''),
-(5, '2025-06-09 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '', '', ''),
-(6, '2025-06-10 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '', '', ''),
-(7, '2025-06-11 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(8, '2025-06-12 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '', '', ''),
-(9, '2025-06-13 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '', '', ''),
-(10, '2025-06-14 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '', '', ''),
-(11, '2025-06-16 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '', '', ''),
-(12, '2025-06-05 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11666', '0', '', '', ''),
-(13, '2025-06-06 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11666', '0', '', '', ''),
-(14, '2025-06-07 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '0', ''),
-(15, '2025-06-09 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11666', '0', '', '', ''),
-(16, '2025-06-10 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11666', '0', '', '', ''),
-(17, '2025-06-11 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11666', '0', '', '', ''),
-(18, '2025-06-12 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11666', '0', '', '', ''),
-(19, '2025-06-13 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11666', '0', '', '', ''),
-(20, '2025-06-14 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11666', '0', '', '', ''),
-(21, '2025-06-16 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11666', '0', '', '', ''),
-(34, '2025-06-17 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(35, '2025-06-18 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(36, '2025-06-19 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(37, '2025-06-20 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(38, '2025-06-21 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(39, '2025-06-22 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(40, '2025-06-23 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(41, '2025-06-24 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(42, '2025-06-25 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(43, '2025-06-26 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(44, '2025-06-27 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(45, '2025-06-28 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(46, '2025-06-30 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(47, '2025-07-01 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(48, '2025-07-02 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(49, '2025-07-03 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(50, '2025-07-04 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '120000', '0', '14000', '8', '7', '', ''),
-(51, '2025-07-05 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(52, '2025-07-07 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(53, '2025-07-08 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(54, '2025-07-09 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(55, '2025-07-10 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(56, '2025-07-11 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(57, '2025-07-12 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(58, '2025-06-17 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(59, '2025-06-18 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(60, '2025-06-19 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(61, '2025-06-20 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(62, '2025-06-21 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(63, '2025-06-23 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(64, '2025-06-24 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(65, '2025-06-25 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(66, '2025-06-26 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(67, '2025-06-27 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(68, '2025-06-28 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(69, '2025-07-01 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(70, '2025-07-02 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(71, '2025-07-03 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(72, '2025-07-04 00:00:00', '2', 'YINNI NEGRET', '100000', '0', '11667', '8', '7', '', ''),
-(73, '2025-07-05 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(74, '2025-07-07 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(75, '2025-07-08 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(76, '2025-07-09 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(77, '2025-07-10 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(78, '2025-07-11 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(79, '2025-07-12 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(80, '2025-07-14 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(81, '2025-07-14 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(82, '2025-07-15 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(83, '2025-07-15 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(84, '2025-07-18 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(85, '2025-07-18 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(86, '2025-07-18 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(87, '2025-07-19 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '', ''),
-(88, '2025-07-19 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '', ''),
-(89, '2025-07-21 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '0', ''),
-(90, '2025-07-21 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '0', ''),
-(91, '2025-07-22 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '0', ''),
-(92, '2025-07-22 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '0', ''),
-(93, '2025-07-23 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '0', ''),
-(94, '2025-07-23 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '0', ''),
-(95, '2025-07-23 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '0', ''),
-(96, '2025-07-23 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '0', ''),
-(97, '2025-07-25 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '0', ''),
-(98, '2025-07-25 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '0', ''),
-(99, '2025-07-26 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '0', ''),
-(100, '2025-07-26 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '0', ''),
-(101, '2025-07-28 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14000', '0', '0', '0', ''),
-(102, '2025-07-28 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '0', ''),
-(103, '2025-07-29 00:00:00', '2', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '14231', '0', '0', '0', '740000'),
-(104, '2025-07-29 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '0', '600000'),
-(105, '2025-07-30 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '13846', '0', '0', '0', '720000'),
-(106, '2025-07-30 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11538', '0', '0', '0', '600000.02'),
-(107, '2025-07-31 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '13846', '0', '0', '0', '720000'),
-(108, '2025-07-31 00:00:00', '2', 'YINNI NEGRET', '0', '1', '11538', '0', '0', '0', '600000.02'),
-(109, '2025-08-01 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '13846', '0', '0', '0', '720000'),
-(110, '2025-08-01 00:00:00', '2', 'YINNI NEGRET', '600001', '0', '0', '0', '0', '0', '-0.98'),
-(111, '2025-08-03 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '13846', '0', '0', '0', '720000'),
-(112, '2025-08-03 00:00:00', '3', 'YINNI NEGRET', '0', '1', '11667', '0', '0', '0', '699999.96'),
-(113, '2025-08-04 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '0', '1', '13846', '0', '0', '7200', '720000'),
-(114, '2025-08-04 00:00:00', '3', 'YINNI NEGRET', '0', '1', '11167', '0', '0', '0', '669999.96'),
-(115, '2025-08-05 00:00:00', '1', 'HANS CHRISTIAN QUIROGA CHARRIA', '220000', '0', '13985', '15', '14', '0', '727200'),
-(116, '2025-08-05 00:00:00', '3', 'YINNI NEGRET', '0', '1', '12069', '0', '0', '0', '699999.96');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `roles`
---
-
-CREATE TABLE `roles` (
-  `idrol` int(11) NOT NULL,
-  `rol` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `roles`
---
-
-INSERT INTO `roles` (`idrol`, `rol`) VALUES
-(1, 'ADMINISTRADOR'),
-(2, 'ASESOR');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `rutas`
---
-
-CREATE TABLE `rutas` (
-  `id_ruta` int(11) NOT NULL,
-  `ruta` int(11) NOT NULL,
-  `idcob` varchar(50) NOT NULL,
-  `nombrecob` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `rutas`
---
-
-INSERT INTO `rutas` (`id_ruta`, `ruta`, `idcob`, `nombrecob`) VALUES
-(1, 1, '16895455', 'HECTR BENAVIDES'),
-(2, 2, '123', 'USUARIO');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuarios`
---
-
-CREATE TABLE `usuarios` (
-  `cedulaus` int(11) NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `direccion` varchar(50) NOT NULL,
-  `telefono` varchar(50) NOT NULL,
-  `correo` varchar(50) NOT NULL,
-  `idrol` varchar(50) NOT NULL,
-  `urol` varchar(50) NOT NULL,
-  `fecha` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `usuarios`
---
-
-INSERT INTO `usuarios` (`cedulaus`, `nombre`, `direccion`, `telefono`, `correo`, `idrol`, `urol`, `fecha`) VALUES
-(16895455, 'HECTOR BENAVIDES', 'O', 'O', 'hector.benavides@magabyinformatica.com.co', '1', 'ADMINISTRADOR', ''),
-(123, 'USUARIO', '0', '0', 'USUARIO@GMAIL.COM', '2', 'ASESOR', '');
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `accesorol`
---
-ALTER TABLE `accesorol`
-  ADD PRIMARY KEY (`accesorolid`) USING BTREE;
-
---
--- Indices de la tabla `asesores`
---
-ALTER TABLE `asesores`
-  ADD PRIMARY KEY (`cedula_asesor`);
-
---
--- Indices de la tabla `clientes`
---
-ALTER TABLE `clientes`
-  ADD PRIMARY KEY (`cedula`);
-
---
--- Indices de la tabla `codeudor`
---
-ALTER TABLE `codeudor`
-  ADD PRIMARY KEY (`cedula`);
-
---
--- Indices de la tabla `creditos`
---
-ALTER TABLE `creditos`
-  ADD PRIMARY KEY (`id_credito`);
-
---
--- Indices de la tabla `ingresos`
---
-ALTER TABLE `ingresos`
-  ADD PRIMARY KEY (`id_ingreso`);
-
---
--- Indices de la tabla `roles`
---
-ALTER TABLE `roles`
-  ADD PRIMARY KEY (`idrol`);
-
---
--- Indices de la tabla `rutas`
---
-ALTER TABLE `rutas`
-  ADD PRIMARY KEY (`id_ruta`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `creditos`
---
-ALTER TABLE `creditos`
-  MODIFY `id_credito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de la tabla `ingresos`
---
-ALTER TABLE `ingresos`
-  MODIFY `id_ingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
-
---
--- AUTO_INCREMENT de la tabla `roles`
---
-ALTER TABLE `roles`
-  MODIFY `idrol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `rutas`
---
-ALTER TABLE `rutas`
-  MODIFY `id_ruta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
