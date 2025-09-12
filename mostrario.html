@@ -1,108 +1,107 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Recibo de Parqueadero</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      font-size: 12px;
-      font-weight: bold;
-      color: #000000;
-      margin: 0;
-      padding: 0;
-    }
-    .recibo {
-      width: 58mm;
-      padding: 10px;
-      margin: auto;
-    }
-    .titulo {
-      text-align: center;
-      margin-bottom: 5px;
-    }
-    .item {
-      margin-bottom: 5px;
-    }
-    .linea {
-      border-top: 1px dashed #000;
-      margin: 10px 0;
-    }
-    .imagen-container {
-      text-align: center;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    .imagen-container img {
-      max-width: 100%;
-      height: auto;
-      display: none;
-    }
-    .pie {
-      font-size: 10px; /* Más pequeño para que quepa */
-      text-align: justify;
-      margin-top: 10px;
-    }
-    .pie strong {
-      display: block;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Recibo de Parqueadero</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+        }
+        .recibo {
+            width: 58mm;
+            padding: 10px;
+            margin: auto;
+        }
+        .titulo {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .item {
+            margin-bottom: 5px;
+        }
+        .linea {
+            border-top: 1px dashed #000;
+            margin: 10px 0;
+        }
+        .imagen-encabezado-container {
+            text-align: center;
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+        .imagen-encabezado-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .pie {
+            font-size: 10px;
+            text-align: justify;
+            margin-top: 10px;
+        }
+        .pie strong {
+            display: block;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
-<body onload="cargarDatos(); window.print();">
+<body>
 
-  <div class="recibo">
-    <div class="titulo" style="font-size:40px;">DON SOMB</div>
-    <div class="titulo">PARQUEADERO</div>
-    <div class="titulo">DIR: CALLE 12 # 3 33div>
-    <div class="titulo">TELEFONO: 302 2038020</div>
+    <div class="recibo">
+        <div class="imagen-encabezado-container">
+            <img id="imagenRecibo" src="" alt="Imagen del recibo">
+        </div>
 
-    <div class="item"><span class="label">Recibo:</span> <span id="norecibo"></span></div>
-    <div class="item"><span class="label">Placa:</span> <span id="placa"></span></div>   
-    <div class="item"><span class="label">Ingreso:</span> <span id="ingreso"></span></div> 
-    <div class="item"><span class="label">Precio:</span> <span id="preciohora"></span></div>
-    
+        <div class="titulo" style="font-size:40px;">AJM</div>
+        <div class="titulo">PARQUEADERO</div>
+        <div class="titulo">DIR: CARRERA 7 # 15-46</div>
+        <div class="titulo">TELEFONO: 3163296157</div>
 
-    <div class="imagen-container">
-      <img id="imagenRecibo" src="" alt="Imagen del recibo">
+        <div class="item"><span class="label">Recibo:</span> <span id="norecibo"></span></div>
+        <div class="item"><span class="label">Placa:</span> <span id="placa"></span></div>
+        <div class="item"><span class="label">Ingreso:</span> <span id="ingreso"></span></div>
+        <div class="item"><span class="label">Precio:</span> <span id="preciohora"></span></div>
+
+        <div class="linea"></div>
+
+        <div class="pie">
+            <strong>REGLAMENTO</strong> OJO SI PASA DE LAS 7 P.M. SE COBRARA UNA JORNAD MAS
+            El vehículo se entregará al portador del recibo. No aceptamos órdenes telefónicas ni escritas.
+            Retirado el vehículo, no aceptamos ningún tipo de reclamo. No nos responsabilizamos por la pérdida, deterioro o daños ocurridos como
+            consecuencia de incendio, terremoto, asonada, revolución, u otras causas similares. No respondemos
+            por daños al vehículo causados por terceros. Debe dejar la moto sin seguro.
+        </div>
     </div>
 
-    <div class="linea"></div>
+    <script>
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const imagenRuta = params.get("imagen") || "";
+            const imagenElement = document.getElementById("imagenRecibo");
 
-    <div class="pie">
-      <strong>REGLAMENTO</strong> OJO SI PASA DE LAS 7 P.M.  SE QUEDA EL VEHICULO HASTA EL DIA SIGUIENTE Y SE COBRSRS JORNADA NOCTURNA, DEJAR VEHICULO SIN SEGURO.
-    </div>
-  </div>
+            document.getElementById("norecibo").textContent = params.get("norecibo") || "";
+            document.getElementById("placa").textContent = params.get("placa") || "";
+            document.getElementById("ingreso").textContent = params.get("ingreso") || "";
+            document.getElementById("preciohora").textContent = params.get("preciohora") || "";
 
-  <script>
-    function cargarDatos() {
-      const params = new URLSearchParams(window.location.search);
+            if (imagenRuta) {
+                imagenElement.src = imagenRuta;
+                imagenElement.style.display = 'block';
+            } else {
+                imagenElement.style.display = 'none';
+            }
 
-      document.getElementById("norecibo").textContent = params.get("norecibo") || "";
-      document.getElementById("placa").textContent = params.get("placa") || "";     
-      document.getElementById("ingreso").textContent = params.get("ingreso") || "";      
-      document.getElementById("preciohora").textContent = params.get("preciohora") || "";
-     
-
-      const imagenRuta = params.get("imagen") || "";
-      const imagenElement = document.getElementById("imagenRecibo");
-
-      if (imagenRuta) {
-        imagenElement.src = imagenRuta;
-        imagenElement.style.display = 'block';
-      } else {
-        imagenElement.style.display = 'none';
-      }
-    }
-  </script>
-
+            // Retrasar la impresión 500ms para asegurar que todo se haya renderizado.
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        };
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
