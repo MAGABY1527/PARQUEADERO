@@ -36,10 +36,10 @@
     .imagen-container img {
       max-width: 100%;
       height: auto;
-      display: none;
+      display: none; /* Se mostrará con JavaScript */
     }
     .pie {
-      font-size: 15px; /* Más pequeño para que quepa */
+      font-size: 10px; /* Reducido para que quepa todo el texto */
       text-align: justify;
       margin-top: 10px;
     }
@@ -48,9 +48,16 @@
       text-align: center;
       margin-bottom: 5px;
     }
+    @media print {
+      .imagen-container img {
+        display: block !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
   </style>
 </head>
-<body onload="cargarDatos(); window.print();">
+<body onload="cargarDatos();">
 
   <div class="recibo">
     <div class="titulo" style="font-size:40px;">AJM</div>
@@ -59,9 +66,10 @@
     <div class="titulo">TELEFONO: 3163296157</div>
 
     <div class="item"><span class="label">Recibo:</span> <span id="norecibo"></span></div>
-    <div class="item"><span class="label">Placa:</span> <span id="placa"></span></div>   
+    <div class="item"><span class="label">Placa:</span> <span id="placa"></span></div>    
     <div class="item"><span class="label">Ingreso:</span> <span id="ingreso"></span></div> 
     <div class="item"><span class="label">Precio:</span> <span id="preciohora"></span></div>
+    <!-- El nuevo campo NC que agregaste -->
     <div class="item"><span class="label">NC:</span> <span id="nc"></span></div>
 
     <div class="imagen-container">
@@ -71,11 +79,7 @@
     <div class="linea"></div>
 
     <div class="pie">
-      <strong>REGLAMENTO</strong> OJO SI PASA DE LAS 7 P.M. SE COBRARA UNA JORNAD MAS, HOTRARIO (L - S.   DE 7:45 AM. - 7:15 PM.)
-      El vehículo se entregará al portador del recibo. No aceptamos órdenes telefónicas ni escritas. 
-      Retirado el vehículo, no aceptamos ningún tipo de reclamo. No nos responsabilizamos por la pérdida, deterioro o daños ocurridos como 
-      consecuencia de incendio, terremoto, asonada, revolución, u otras causas similares. No respondemos 
-      por daños al vehículo causados por terceros. Debe dejar la moto sin seguro.
+      <strong>REGLAMENTO</strong> OJO SI PASA DE LAS 7 P.M. SE COBRARA UNA JORNADA MAS, HORARIO (L - S. DE 7:45 AM. - 7:15 PM.) El vehículo se entregará al portador del recibo. No aceptamos órdenes telefónicas ni escritas. Retirado el vehículo, no aceptamos ningún tipo de reclamo. No nos responsabilizamos por la pérdida, deterioro o daños ocurridos como consecuencia de incendio, terremoto, asonada, revolución, u otras causas similares. No respondemos por daños al vehículo causados por terceros. Debe dejar la moto sin seguro.
     </div>
   </div>
 
@@ -84,34 +88,32 @@
       const params = new URLSearchParams(window.location.search);
 
       document.getElementById("norecibo").textContent = params.get("norecibo") || "";
-      document.getElementById("placa").textContent = params.get("placa") || "";     
+      document.getElementById("placa").textContent = params.get("placa") || "";      
       document.getElementById("ingreso").textContent = params.get("ingreso") || "";      
       document.getElementById("preciohora").textContent = params.get("preciohora") || "";
-     
-
+      // --- CORRECCIÓN: Se añade la línea para el nuevo campo NC ---
+      document.getElementById("nc").textContent = params.get("nc") || "";
+      
       const imagenRuta = params.get("imagen") || "";
       const imagenElement = document.getElementById("imagenRecibo");
 
       if (imagenRuta) {
         imagenElement.src = imagenRuta;
         imagenElement.style.display = 'block';
+        
+        // --- LÓGICA MEJORADA: Espera a que la imagen se cargue antes de imprimir ---
+        imagenElement.onload = function() {
+          window.print();
+        };
+        if (imagenElement.complete) {
+            window.print();
+        }
       } else {
-        imagenElement.style.display = 'none';
+          // Si no hay imagen, imprime de inmediato
+          window.print();
       }
     }
   </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
